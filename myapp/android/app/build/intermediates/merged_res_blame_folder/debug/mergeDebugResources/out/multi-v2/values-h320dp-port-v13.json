@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.myapp-mergeDebugResources-52:/values-h320dp-port-v13/values-h320dp-port-v13.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\win 10\\.gradle\\caches\\8.14.3\\transforms\\ac1fb170d241e5699e57c9cbc079b738\\transformed\\material-1.12.0\\res\\values-h320dp-port-v13\\values-h320dp-port-v13.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "63",
+                        "endOffsets": "114"
+                    }
+                }
+            ]
+        }
+    ]
+}

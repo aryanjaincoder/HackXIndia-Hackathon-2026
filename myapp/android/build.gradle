@@ -1,0 +1,48 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    ext {
+        buildToolsVersion = "34.0.0"
+minSdkVersion = 24
+compileSdkVersion = 34
+targetSdkVersion = 34
+ndkVersion = "26.1.10909125"
+kotlinVersion = "1.9.23"
+    }
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        // --- CORRECTED AGP VERSION ---
+        // Use AGP compatible with compileSdk 34 and RN 0.81
+        classpath("com.android.tools.build:gradle:8.4.1")
+        // --- END CORRECTION ---
+
+        // React Native Plugin (This comes with RN 0.81 template)
+        classpath("com.facebook.react:react-native-gradle-plugin")
+
+        // Kotlin Plugin (Uses variable defined above)
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
+
+        // Google Services plugin (for Firebase)
+        classpath('com.google.gms:google-services:4.4.1') // Common stable version
+    }
+}
+
+// --- ESSENTIAL REPOSITORIES FOR ALL MODULES ---
+// This block ensures all sub-projects (including native modules) can find dependencies
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        // Required for react-native-vision-camera and potentially others
+        maven { url 'https://www.jitpack.io' }
+    }
+}
+// --- END allprojects block ---
+
+
+// Apply the React Native root project plugin (This comes with RN 0.81 template)
+apply plugin: "com.facebook.react.rootproject"
+
