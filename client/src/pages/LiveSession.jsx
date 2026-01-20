@@ -53,7 +53,12 @@ function LiveSession() {
 
     const bleInterval = setInterval(() => {
       const variance = Math.floor(Math.random() * 5) - 2;
-      setNearbyDevices(prev => Math.max(attendees.length, Math.min(60, prev + variance)));
+      setNearbyDevices(prev => {
+        // Ensure nearby devices doesn't exceed actual attendees + some random
+        const maxPossible = attendees.length + 5;
+        const newValue = prev + variance;
+        return Math.max(attendees.length, Math.min(maxPossible, newValue));
+      });
     }, 3000);
 
     return () => clearInterval(bleInterval);
@@ -330,18 +335,18 @@ function LiveSession() {
         
         {/* BLE Radar Widget */}
         <div className={`ble-radar-widget ${bleScanning ? 'scanning' : 'paused'}`}>
-  <div className="radar-circle">
-    <div className="radar-pulse"></div>
-    <div className="radar-pulse pulse-2"></div>
-    <div className="radar-center"></div>
-  </div>
-  <div className="radar-info">
-    <div className="radar-status">
-      {bleScanning ? 'Scanning Nearby Devices' : 'BLE Paused'}
-    </div>
-    <div className="radar-count">{Math.min(nearbyDevices, 3)} devices detected</div>  {/* ✅ YE LINE CHANGE KARO */}
-  </div>
-</div>
+          <div className="radar-circle">
+            <div className="radar-pulse"></div>
+            <div className="radar-pulse pulse-2"></div>
+            <div className="radar-center"></div>
+          </div>
+          <div className="radar-info">
+            <div className="radar-status">
+              {bleScanning ? 'Scanning Nearby Devices' : 'BLE Paused'}
+            </div>
+            <div className="radar-count">{bleScanning ? `${nearbyDevices} devices nearby` : 'Scanning paused'}</div>
+          </div>
+        </div>
 
         {/* Top Bar */}
         <div className="top-bar">
@@ -376,22 +381,22 @@ function LiveSession() {
               </div>
             </div>
 
-           <div className="quick-stat-card stat-ble">
-  <div className="stat-icon">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-      <path d="M12 2L17 7L12 12L17 17L12 22V2Z" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"/>
-      <path d="M12 12L7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-      <path d="M12 12L7 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-    </svg>
-  </div>
-  <div className="stat-content">
-    <div className="stat-number">{Math.min(nearbyDevices, 3)}</div>  {/* ✅ YE LINE CHANGE KARO */}
-    <div className="stat-label">Devices Nearby</div>
-    <div className="stat-progress ble-progress">
-      <div className="stat-progress-fill" style={{width: `${bleHealthPercent}%`}}></div>
-    </div>
-  </div>
-</div>
+            <div className="quick-stat-card stat-ble">
+              <div className="stat-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 2L17 7L12 12L17 17L12 22V2Z" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"/>
+                  <path d="M12 12L7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                  <path d="M12 12L7 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                </svg>
+              </div>
+              <div className="stat-content">
+                <div className="stat-number">{nearbyDevices}</div>
+                <div className="stat-label">Devices Nearby</div>
+                <div className="stat-progress ble-progress">
+                  <div className="stat-progress-fill" style={{width: `${bleHealthPercent}%`}}></div>
+                </div>
+              </div>
+            </div>
 
             <div className="quick-stat-card">
               <div className="stat-icon">
@@ -441,29 +446,29 @@ function LiveSession() {
             <div className="qr-display-area">
               <div className={`qr-frame ${isPaused ? 'paused' : ''}`} 
      style={{ borderColor: isPaused ? '#64748b' : livenessColor }}>
-  {!isPaused && currentToken && sessionData?.status === 'active' ? (
-    <QRCodeSVG 
-      value={qrCodeData} 
-      size={380}              /* ✅ YAHA CHANGE KARO */
-      level="H"
-      includeMargin={false}
-    />
-  ) : (
-    <div className="qr-inactive">
-      {isPaused ? (
-        <>
-          <svg width="64" height="64" viewBox="0 0 24 24" fill="none">
-            <rect x="6" y="5" width="4" height="14" fill="#64748b" rx="1"/>
-            <rect x="14" y="5" width="4" height="14" fill="#64748b" rx="1"/>
-          </svg>
-          <p>Scanning Paused</p>
-        </>
-      ) : (
-        <p>{error || 'Initializing...'}</p>
-      )}
-    </div>
-  )}
-</div>
+                {!isPaused && currentToken && sessionData?.status === 'active' ? (
+                  <QRCodeSVG 
+                    value={qrCodeData} 
+                    size={380}
+                    level="H"
+                    includeMargin={false}
+                  />
+                ) : (
+                  <div className="qr-inactive">
+                    {isPaused ? (
+                      <>
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none">
+                          <rect x="6" y="5" width="4" height="14" fill="#64748b" rx="1"/>
+                          <rect x="14" y="5" width="4" height="14" fill="#64748b" rx="1"/>
+                        </svg>
+                        <p>Scanning Paused</p>
+                      </>
+                    ) : (
+                      <p>{error || 'Initializing...'}</p>
+                    )}
+                  </div>
+                )}
+              </div>
 
               <div className="qr-info-grid">
                 <div className="qr-info-item">
@@ -578,9 +583,9 @@ function LiveSession() {
             <div className="panel-header">
               <h2 className="panel-title">Real-Time Attendance</h2>
               <div className="attendee-header-badges">
-  <span className="attendee-count-badge">{attendees.length} Marked</span>
-  <span className="nearby-badge">{Math.min(nearbyDevices, 3)} Nearby</span>  {/* ✅ YE LINE CHANGE KARO */}
-</div>
+                <span className="attendee-count-badge">{attendees.length} Marked</span>
+                <span className="nearby-badge">{nearbyDevices} Nearby</span>
+              </div>
             </div>
 
             <div className="attendees-scroll">
