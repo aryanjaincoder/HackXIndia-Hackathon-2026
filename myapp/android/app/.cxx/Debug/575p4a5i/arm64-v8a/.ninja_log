@@ -1,7 +1,0 @@
-# ninja log v5
-12	245	0	F:/SmartAttendance/myapp/android/app/.cxx/Debug/575p4a5i/arm64-v8a/CMakeFiles/cmake.verify_globs	ded9cf3cce46f9a9
-61	20112	7833385144638483	safeareacontext_autolinked_build/CMakeFiles/react_codegen_safeareacontext.dir/9fc4531830323a17865c112c9f444783/codegen/jni/react/renderer/components/safeareacontext/States.cpp.o	27188a9159144e6c
-41	21328	7833385155054963	safeareacontext_autolinked_build/CMakeFiles/react_codegen_safeareacontext.dir/90a5120dc379d4d42fd48fabb9951a5b/jni/react/renderer/components/safeareacontext/EventEmitters.cpp.o	7e1d40bdd576477a
-96	22309	7833385166844160	safeareacontext_autolinked_build/CMakeFiles/react_codegen_safeareacontext.dir/ee6a373848ea63c61af68f0e99dfe286/build/generated/source/codegen/jni/safeareacontext-generated.cpp.o	3f96f87d42341662
-107	22454	7833385168263309	safeareacontext_autolinked_build/CMakeFiles/react_codegen_safeareacontext.dir/b667626d804a34f6312ba3c2363aa51c/renderer/components/safeareacontext/safeareacontextJSI-generated.cpp.o	df6acec50b3f5750
-6	25701	7833385199672529	CMakeFiles/appmodules.dir/OnLoad.cpp.o	e384e4b40f330888

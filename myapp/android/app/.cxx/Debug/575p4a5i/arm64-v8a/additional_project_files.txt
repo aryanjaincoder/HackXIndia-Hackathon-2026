@@ -1,7 +1,0 @@
-F:\SmartAttendance\myapp\android\app\.cxx\Debug\575p4a5i\arm64-v8a\RNVectorIconsSpec_autolinked_build\CMakeFiles\react_codegen_RNVectorIconsSpec.dir\RNVectorIconsSpec-generated.cpp.o
-F:\SmartAttendance\myapp\android\app\.cxx\Debug\575p4a5i\arm64-v8a\RNVectorIconsSpec_autolinked_build\CMakeFiles\react_codegen_RNVectorIconsSpec.dir\react\renderer\components\RNVectorIconsSpec\ComponentDescriptors.cpp.o
-F:\SmartAttendance\myapp\android\app\.cxx\Debug\575p4a5i\arm64-v8a\RNVectorIconsSpec_autolinked_build\CMakeFiles\react_codegen_RNVectorIconsSpec.dir\react\renderer\components\RNVectorIconsSpec\EventEmitters.cpp.o
-F:\SmartAttendance\myapp\android\app\.cxx\Debug\575p4a5i\arm64-v8a\RNVectorIconsSpec_autolinked_build\CMakeFiles\react_codegen_RNVectorIconsSpec.dir\react\renderer\components\RNVectorIconsSpec\Props.cpp.o
-F:\SmartAttendance\myapp\android\app\.cxx\Debug\575p4a5i\arm64-v8a\RNVectorIconsSpec_autolinked_build\CMakeFiles\react_codegen_RNVectorIconsSpec.dir\react\renderer\components\RNVectorIconsSpec\RNVectorIconsSpecJSI-generated.cpp.o
-F:\SmartAttendance\myapp\android\app\.cxx\Debug\575p4a5i\arm64-v8a\RNVectorIconsSpec_autolinked_build\CMakeFiles\react_codegen_RNVectorIconsSpec.dir\react\renderer\components\RNVectorIconsSpec\ShadowNodes.cpp.o
-F:\SmartAttendance\myapp\android\app\.cxx\Debug\575p4a5i\arm64-v8a\RNVectorIconsSpec_autolinked_build\CMakeFiles\react_codegen_RNVectorIconsSpec.dir\react\renderer\components\RNVectorIconsSpec\States.cpp.o
