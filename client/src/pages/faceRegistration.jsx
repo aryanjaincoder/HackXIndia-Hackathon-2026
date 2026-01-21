@@ -1,7 +1,13 @@
-
 import React, { useState, useEffect } from 'react';
 import { Upload, Camera, CheckCircle, Loader, User } from 'lucide-react';
 
+// Face++ Configuration from environment variables
+const FACEPP_CONFIG = {
+  API_KEY: import.meta.env.VITE_FACEPP_API_KEY,
+  API_SECRET: import.meta.env.VITE_FACEPP_API_SECRET,
+  API_URL: import.meta.env.VITE_FACEPP_API_URL,
+  GLOBAL_FACESET_TOKEN: import.meta.env.VITE_FACEPP_GLOBAL_FACESET_TOKEN
+};
 
 // Add this test function
 export const testFacePPConnection = async () => {
@@ -29,12 +35,6 @@ export const testFacePPConnection = async () => {
     console.error('❌ Connection failed:', error);
     return false;
   }
-};
-const FACEPP_CONFIG = {
-  API_KEY: 'KLIjbyc4XC9VrGDZSRI_P622kIGTd514',
-  API_SECRET: 'KgcpkL-8bUasCaQRjD8AOdjCo3iWXFas',
-  API_URL: 'https://api-us.faceplusplus.com/facepp/v3',
-  GLOBAL_FACESET_TOKEN: '166b3c625feb21e121b43968646354db'
 };
 
 // 🔥 Direct API Call (NO CORS PROXY NEEDED!)
@@ -137,21 +137,23 @@ const FaceRegistrationPage = () => {
   const [db, setDb] = useState(null);
   const [facesetValid, setFacesetValid] = useState(null);
 
-  // Firebase configuration
+  // Firebase configuration from environment variables
   const FIREBASE_CONFIG = {
-    apiKey: "AIzaSyB5VDEo4ewfFQbhj0tqMPAnwhza2fPICe8",
-    authDomain: "zenithely.firebaseapp.com",
-    projectId: "zenithely",
-    storageBucket: "zenithely.firebasestorage.app",
-    messagingSenderId: "1079569948368",
-    appId: "1:1079569948368:web:de96220d769739c2d648d5"
+    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+    appId: import.meta.env.VITE_FIREBASE_APP_ID
   };
+
   // Add this inside FaceRegistrationPage component, after the Firebase useEffect
-useEffect(() => {
-  if (firebaseReady) {
-    testFacePPConnection();
-  }
-}, [firebaseReady]);
+  useEffect(() => {
+    if (firebaseReady) {
+      testFacePPConnection();
+    }
+  }, [firebaseReady]);
+
   // Initialize Firebase
   useEffect(() => {
     const loadFirebase = async () => {
@@ -232,7 +234,7 @@ useEffect(() => {
         console.log('✅ New faceset created!');
         console.log('🔑 NEW TOKEN:', newToken);
         
-        alert(`✅ New Faceset Created!\n\n🔑 Token: ${newToken}\n\nUpdate GLOBAL_FACESET_TOKEN in your code.`);
+        alert(`✅ New Faceset Created!\n\n🔑 Token: ${newToken}\n\nUpdate VITE_FACEPP_GLOBAL_FACESET_TOKEN in your .env file.`);
         
         setStatus(`✅ New faceset created: ${newToken.substring(0, 20)}...`);
         setFacesetValid(true);
@@ -765,6 +767,245 @@ useEffect(() => {
                   Uploaded Images ({previews.length})
                 </h3>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
+
+  return (
+    <div style={{
+      minHeight: '100vh',
+      background: 'linear-gradient(135deg, #1e293b 0%, #7e22ce 50%, #1e293b 100%)',
+      padding: '32px',
+      fontFamily: 'system-ui, -apple-system, sans-serif'
+    }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        {/* Header */}
+        <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', marginBottom: '16px' }}>
+            <Camera size={48} color="#a78bfa" />
+            <h1 style={{ fontSize: '36px', fontWeight: 'bold', color: 'white', margin: 0 }}>
+              Face Registration Portal
+            </h1>
+          </div>
+          <p style={{ color: '#d1d5db', fontSize: '16px' }}>
+            Upload 3-5 face images for AI-powered verification
+          </p>
+          {!firebaseReady && (
+            <p style={{ color: '#fbbf24', fontSize: '14px', marginTop: '8px' }}>
+              ⏳ Loading Firebase...
+            </p>
+          )}
+          {firebaseReady && (
+            <p style={{ color: '#10b981', fontSize: '14px', marginTop: '8px' }}>
+              ✅ Firebase Ready
+            </p>
+          )}
+          {facesetValid === false && (
+            <div style={{ 
+              marginTop: '12px', 
+              padding: '12px', 
+              background: 'rgba(239, 68, 68, 0.1)', 
+              border: '1px solid rgba(239, 68, 68, 0.3)',
+              borderRadius: '8px'
+            }}>
+              <p style={{ color: '#ef4444', fontSize: '14px', fontWeight: '600', marginBottom: '8px' }}>
+                ⚠️ Invalid Faceset Token
+              </p>
+              <button
+                onClick={createNewFaceset}
+                style={{
+                  padding: '8px 16px',
+                  background: '#3b82f6',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '6px',
+                  cursor: 'pointer',
+                  fontSize: '13px',
+                  fontWeight: '600'
+                }}
+              >
+                🔧 Create New Faceset
+              </button>
+            </div>
+          )}
+          {facesetValid === true && (
+            <p style={{ color: '#10b981', fontSize: '14px', marginTop: '8px' }}>
+              ✅ Faceset Valid
+            </p>
+          )}
+        </div>
+
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: window.innerWidth > 768 ? '1fr 1fr' : '1fr',
+          gap: '32px'
+        }}>
+          {/* Left Panel */}
+          <div style={{
+            background: 'rgba(255, 255, 255, 0.1)',
+            backdropFilter: 'blur(10px)',
+            borderRadius: '16px',
+            padding: '24px',
+            border: '1px solid rgba(255, 255, 255, 0.2)'
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '24px' }}>
+              <User size={24} color="#a78bfa" />
+              <h2 style={{ fontSize: '24px', fontWeight: 'bold', color: 'white', margin: 0 }}>
+                User Details
+              </h2>
+            </div>
+
+            <div>
+              <div style={{ marginBottom: '16px' }}>
+                <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: '#d1d5db', marginBottom: '8px' }}>
+                  User ID *
+                </label>
+                <input
+                  type="text"
+                  value={userId}
+                  onChange={(e) => setUserId(e.target.value)}
+                  placeholder="e.g., STU001"
+                  style={{
+                    width: '100%',
+                    padding: '12px 16px',
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    borderRadius: '8px',
+                    color: 'white',
+                    fontSize: '14px',
+                    outline: 'none',
+                    boxSizing: 'border-box'
+                  }}
+                />
+              </div>
+
+              <div style={{ marginBottom: '16px' }}>
+                <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: '#d1d5db', marginBottom: '8px' }}>
+                  Full Name *
+                </label>
+                <input
+                  type="text"
+                  value={userName}
+                  onChange={(e) => setUserName(e.target.value)}
+                  placeholder="e.g., Rahul Sharma"
+                  style={{
+                    width: '100%',
+                    padding: '12px 16px',
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    borderRadius: '8px',
+                    color: 'white',
+                    fontSize: '14px',
+                    outline: 'none',
+                    boxSizing: 'border-box'
+                  }}
+                />
+              </div>
+
+              <div style={{ marginBottom: '16px' }}>
+                <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: '#d1d5db', marginBottom: '8px' }}>
+                  Email Address *
+                </label>
+                <input
+                  type="email"
+                  value={userEmail}
+                  onChange={(e) => setUserEmail(e.target.value)}
+                  placeholder="e.g., rahul@example.com"
+                  style={{
+                    width: '100%',
+                    padding: '12px 16px',
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    borderRadius: '8px',
+                    color: 'white',
+                    fontSize: '14px',
+                    outline: 'none',
+                    boxSizing: 'border-box'
+                  }}
+                />
+              </div>
+
+              <div style={{ marginTop: '24px' }}>
+                <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: '#d1d5db', marginBottom: '8px' }}>
+                  Upload Face Images (3-5 images) *
+                </label>
+                <label style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '100%',
+                  height: '128px',
+                  border: '2px dashed #a78bfa',
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  background: 'rgba(255, 255, 255, 0.02)'
+                }}>
+                  <Upload size={32} color="#a78bfa" />
+                  <span style={{ color: '#d1d5db', fontSize: '14px', marginTop: '8px' }}>
+                    Click to upload images
+                  </span>
+                  <span style={{ color: '#9ca3af', fontSize: '12px', marginTop: '4px' }}>
+                    JPG, PNG (3-5 images required)
+                  </span>
+                  <input
+                    type="file"
+                    multiple
+                    accept="image/*"
+                    onChange={handleImageSelect}
+                    style={{ display: 'none' }}
+                  />
+                </label>
+              </div>
+
+              <button
+                onClick={handleRegistration}
+                disabled={loading || images.length === 0 || !firebaseReady}
+                style={{
+                  width: '100%',
+                  marginTop: '24px',
+                  padding: '16px 24px',
+                  background: loading || images.length === 0 || !firebaseReady ? '#555' : 'linear-gradient(to right, #9333ea, #ec4899)',
+                  color: 'white',
+                  fontWeight: 'bold',
+                  borderRadius: '8px',
+                  border: 'none',
+                  cursor: loading || images.length === 0 || !firebaseReady ? 'not-allowed' : 'pointer',
+                  fontSize: '16px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px',
+                  opacity: loading || images.length === 0 || !firebaseReady ? 0.5 : 1
+                }}
+              >
+                {loading ? (
+                  <>
+                    <Loader size={20} style={{ animation: 'spin 1s linear infinite' }} />
+                    Processing...
+                  </>
+                ) : (
+                  <>
+                    <CheckCircle size={20} />
+                    Register Face Data
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+
+          {/* Right Panel */}
+          <div>
+            {previews.length > 0 && (
+              <div style={{
+                background: 'rgba(255, 255, 255, 0.1)',
+                backdropFilter: 'blur(10px)',
+                borderRadius: '16px',
+                padding: '24px',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                marginBottom: '24px'
+              }}>
+                <h3 style={{ fontSize: '20px', fontWeight: 'bold', color: 'white', marginBottom: '16px' }}>
+                  Uploaded Images ({previews.length})
+                </h3>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
                   {previews.map((preview, index) => (
                     <div key={index} style={{ position: 'relative' }}>
                       <img
@@ -916,5 +1157,6 @@ useEffect(() => {
     </div>
   );
 };
+
 
 export default FaceRegistrationPage;
